@@ -1,0 +1,28 @@
+name: Use Hello World Action
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Name to greet'
+        required: false
+        default: 'World'
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Hello World action
+        id: hello
+        uses: ./
+        with:
+          who-to-greet: ${{ github.event.inputs.name || 'GitHub Actions' }}
+
+      - name: Print greeting time
+        run: echo "Greeted at ${{ steps.hello.outputs.greeting-time }}"
