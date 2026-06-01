@@ -1,0 +1,23 @@
+name: 'Hello World'
+description: 'A simple reusable action that greets someone'
+
+inputs:
+  who-to-greet:
+    description: 'The name of the person to greet'
+    required: true
+    default: 'World'
+
+outputs:
+  greeting-time:
+    description: 'The time at which the greeting was issued'
+    value: ${{ steps.greet.outputs.time }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Greet
+      id: greet
+      shell: bash
+      run: |
+        echo "Hello, ${{ inputs.who-to-greet }}!"
+        echo "time=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
